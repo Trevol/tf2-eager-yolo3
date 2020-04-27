@@ -5,30 +5,19 @@ import argparse
 import cv2
 import matplotlib.pyplot as plt
 
+from experiments.my_dev.utils.Timer import timeit
 from yolo.utils.box import visualize_boxes
 from yolo.config import ConfigParser
 
-argparser = argparse.ArgumentParser(
-    description='test yolov3 network with coco weights')
 
-argparser.add_argument(
-    '-c',
-    '--config',
-    default="configs/predict_coco.json",
-    help='config file')
+def main():
+    # image_path = "../../imgs/dog.jpg"
+    # image_path = "../../tests/samples/sample.jpeg"
+    image_path = "/hdd/Datasets/counters/img/000030.jpg"
 
-argparser.add_argument(
-    '-i',
-    '--image',
-    default="tests/samples/sample.jpeg",
-    help='path to image file')
+    configFile = "configs/my_predict_coco.json"
 
-if __name__ == '__main__':
-    args = argparser.parse_args()
-    image_path = args.image
-
-    # 1. create yolo model & load weights
-    config_parser = ConfigParser(args.config)
+    config_parser = ConfigParser(configFile)
     model = config_parser.create_model(skip_detect_layer=False)
     detector = config_parser.create_detector(model)
 
@@ -42,6 +31,9 @@ if __name__ == '__main__':
     # 4. draw detected boxes
     visualize_boxes(image, boxes, labels, probs, config_parser.get_labels())
 
-    # 5. plot    
+    # 5. plot
     plt.imshow(image)
     plt.show()
+
+
+main()
